@@ -146,23 +146,25 @@
                         var lastWallpaper = cs.val();
                         newIndex = lastWallpaper.index + 1;    
                     })
-                    
-                    var imageUrl = uploadTask.snapshot.downloadURL; 
-                    var database = firebase.database().ref("images").child(category);
 
-                    var imageid = database.push().key;
+                    uploadTask.snapshot.ref.getDownloadURL().then(function(downloadURL) {
+                        var imageUrl = downloadURL;
+                        var database = firebase.database().ref("images").child(category);
 
-                    var image = {
-                        "url": imageUrl, 
-                        "title": title, 
-                        "desc": desc,
-                        "index": newIndex,
-                        "indexReverse": -newIndex
-                    };
+                        var imageid = database.push().key;
 
-                    database.child(imageid).set(image, function(err){
-                        alert("Image saved..");
-                        resetForm();
+                        var image = {
+                            "url": imageUrl,
+                            "title": title,
+                            "desc": desc,
+                            "index": newIndex,
+                            "indexReverse": -newIndex
+                        };
+
+                        database.child(imageid).set(image, function(err){
+                            alert("Image saved..");
+                            resetForm();
+                        });
                     });
                 });
             }
