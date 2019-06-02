@@ -65,4 +65,4 @@ node_modules/
 .env
 
 #
-js/app.prod.js
+app.prod.js
