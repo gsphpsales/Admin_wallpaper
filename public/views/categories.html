@@ -190,33 +190,57 @@
 
         if(categories.exists()){
 
-            var getCategories = firebase.functions().httpsCallable('getCategories');
-            getCategories().then(function(result) {
+            var categorieshtml = "";
+            categories.forEach(function (category) {
+                categorieshtml += "<tr>";
 
-                var categorieshtml = "";
-                result.data.map(function (category) {
-                    categorieshtml += "<tr>";
+                //for category name
+                categorieshtml += "<td>";
+                categorieshtml += category.key;
+                categorieshtml += "</td>";
 
-                    //for category name
-                    categorieshtml += "<td>";
-                    categorieshtml += category.key;
-                    categorieshtml += "</td>";
+                //for category description
+                categorieshtml += "<td>";
+                categorieshtml += category.val().desc;
+                categorieshtml += "</td>";
 
-                    //for category description
-                    categorieshtml += "<td>";
-                    categorieshtml += category.desc;
-                    categorieshtml += "</td>";
-
-                    //for category thumbnail
-                    categorieshtml += "<td> <img width='256' height='256' src='";
-                    categorieshtml += category._thumbnail;
-                    categorieshtml += "' /></td>";
+                //for category thumbnail
+                categorieshtml += "<td> <img width='256' height='256' src='";
+                categorieshtml += category.val()._thumbnail || category.val().thumbnail;
+                categorieshtml += "' /></td>";
 
 
-                    categorieshtml += "</tr>";
-                })
-                $("#categories").html(categorieshtml);
+                categorieshtml += "</tr>";
             });
+            $("#categories").html(categorieshtml);
+
+            // var getCategories = firebase.functions().httpsCallable('getCategories');
+            // getCategories().then(function(result) {
+            //
+            //     var categorieshtml = "";
+            //     result.data.map(function (category) {
+            //         categorieshtml += "<tr>";
+            //
+            //         //for category name
+            //         categorieshtml += "<td>";
+            //         categorieshtml += category.key;
+            //         categorieshtml += "</td>";
+            //
+            //         //for category description
+            //         categorieshtml += "<td>";
+            //         categorieshtml += category.desc;
+            //         categorieshtml += "</td>";
+            //
+            //         //for category thumbnail
+            //         categorieshtml += "<td> <img width='256' height='256' src='";
+            //         categorieshtml += category._thumbnail;
+            //         categorieshtml += "' /></td>";
+            //
+            //
+            //         categorieshtml += "</tr>";
+            //     })
+            //     $("#categories").html(categorieshtml);
+            // });
         }
 
     });
